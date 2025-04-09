@@ -75,9 +75,9 @@ data_structures_docker/
 │   │   └── Linked Lists Questions.pdf # 문제 설명 문서
 │   └── Stack_and_Queue/
 │       ├── Q1_C_SQ.c ~ Q7_C_SQ.c       # 스택/큐 문제 C 코드
-│       └── Stack and Queues Questions.pdf
+│       └── Stack and Queues Questions.pdf # 문제 설명 문서
 │
-└── README.md  # 프로젝트 설명
+└── README.md  # 설치 및 사용법 설명 문서
 ```
 
 > ✅ 각 디렉터리는 자료구조 주제별로 문제 파일들이 정리되어 있습니다.

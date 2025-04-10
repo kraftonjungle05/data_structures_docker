@@ -102,9 +102,32 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
-}
+    // 예외 처리: 입력 리스트가 NULL이거나 비어있을 경우
+    if (ll == NULL || ll->head == NULL || ll->size == 0) {
+        resultFrontList->head = NULL;
+        resultBackList->head = NULL;
+        return;
+    }
 
+    int half = (ll->size + 1) / 2; // 앞 리스트가 더 많게 하기 위해 +1
+
+    // 중간 노드 찾기
+    ListNode *midNode = findNode(ll, half - 1);
+    ListNode *backHead = midNode->next;
+
+    // 앞 리스트 설정
+    midNode->next = NULL;
+    resultFrontList->head = ll->head;
+
+    // 뒷 리스트 설정
+    resultBackList->head = backHead;
+
+    // 원본 리스트 초기화 (선택적)
+    ll->head = NULL;
+    ll->size = 0; // 만약 size도 정리하고 싶다면
+
+    return;
+}
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll){

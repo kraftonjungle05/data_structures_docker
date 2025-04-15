@@ -87,7 +87,26 @@ int main()
 
 void RecursiveReverse(ListNode **ptrHead)
 {
-	/* add your code here */
+	if (*ptrHead == NULL){
+		return ;
+	}
+
+	LinkedList *temp_ll = malloc(sizeof(LinkedList));
+	temp_ll->head = NULL;
+	temp_ll->size = 0;
+
+	ListNode *cur = *ptrHead; // ll의 헤드
+	ListNode *next = cur->next;
+	int i = 0;
+
+	while (cur != NULL)
+	{
+		insertNode(temp_ll, 0, cur->item);
+		cur = cur->next;
+	}
+	*ptrHead = temp_ll->head;
+	free(temp_ll);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

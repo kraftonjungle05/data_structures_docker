@@ -38,7 +38,7 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	int c, i;
+	int c = 1, i; // while 루프 실행 위한 초기화 및 값 할당
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -102,7 +102,29 @@ int main()
 
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
-	/* add your code here */
+	if (ll == NULL){
+		return;
+	}
+	// 필요한 변수들 선언
+	ListNode *cur = ll -> head;
+	int i = 0;
+	int j = 0;
+	int size = ll->size;
+	int frontSize = (size + 1) / 2;
+	// 앞쪽 리스트부터 채우기
+	while(i < frontSize){
+		insertNode(resultFrontList,i, cur->item);
+		cur = cur->next;
+		i++;
+	}
+	while (i < size)
+	{
+		insertNode(resultBackList,j, cur->item);
+		cur = cur-> next;
+		i++;
+		j++;
+	}
+	removeAllItems(ll);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

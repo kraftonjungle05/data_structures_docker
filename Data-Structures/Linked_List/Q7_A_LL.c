@@ -84,10 +84,25 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////
-
-void RecursiveReverse(ListNode **ptrHead)
+void recursiveReverse(ListNode **ppHead)
 {
-	/* add your code here */
+    // 종료 조건: 빈 리스트거나 노드가 하나뿐이면 그대로 둠
+    if (*ppHead == NULL || (*ppHead)->next == NULL)
+        return;
+
+    // 첫 번째 노드와 나머지 부분 분리
+    ListNode *pFirst = *ppHead;
+    ListNode *pRest = pFirst->next;
+
+    // 나머지 리스트를 재귀적으로 뒤집기
+    recursiveReverse(&pRest);
+
+    // 현재 노드(pFirst)를 리스트 끝으로 연결
+    pFirst->next->next = pFirst;
+    pFirst->next = NULL;
+
+    // head 갱신
+    *ppHead = pRest;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

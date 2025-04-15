@@ -86,9 +86,60 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
-}
+	if (ll == NULL || ll->head == NULL)
+		return;
 
+	ListNode *cur = ll->head;
+	ListNode *prev = NULL;
+	ListNode *tail = ll->head;
+
+	// 현재 tail 찾기
+	while (tail->next != NULL)
+	{
+		tail = tail->next;
+	}
+
+	ListNode *originalTail = tail; // 끝 구간을 기억해서 무한 루프 방지
+	int count = ll->size;
+
+	while (count > 0 && cur != NULL)
+	{
+		ListNode *next = cur->next; // 미리 저장 (cur가 바뀌면 next 못씀)
+
+		if (cur->item % 2 == 1)
+		{ // 홀수면 뒤로 보냄
+			// 새 노드 생성
+			ListNode *tmp = malloc(sizeof(ListNode));
+			tmp->item = cur->item;
+			tmp->next = NULL;
+
+			tail->next = tmp;
+			tail = tmp;
+
+			// 기존 노드 제거
+			if (cur == ll->head)
+			{
+				ll->head = cur->next;
+				free(cur);
+				cur = ll->head;
+			}
+			else
+			{
+				prev->next = cur->next;
+				free(cur);
+				cur = next;
+			}
+			// ll->size--; // 기존 노드를 제거했으므로 줄이기
+		}
+		else
+		{
+			prev = cur;
+			cur = next;
+		}
+
+		count--;
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll){

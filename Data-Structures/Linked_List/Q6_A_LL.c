@@ -83,13 +83,45 @@ int main()
 	}
 	return 0;
 }
-
 ////////////////////////////////////////////////////////////////////////
 
-int moveMaxToFront(ListNode **ptrHead)
-{
-    /* add your code here */
-}
+int moveMaxToFront(ListNode **ptrHead) {
+		// 리스트가 비어있거나 NULL인지 확인
+		if (ptrHead == NULL || *ptrHead == NULL) {
+			return 0; // 리스트가 비어있으면 0 반환
+		}
+	
+		ListNode *cur = *ptrHead;
+		ListNode *maxNode = cur; // 최대 노드를 현재 노드로 초기화
+		ListNode *prev = NULL;   // 최대 노드의 이전 노드
+		ListNode *prevMax = NULL; // 최대 노드의 이전 노드
+	
+		// 리스트를 순회하며 최대 노드를 찾음
+		while (cur != NULL) {
+			if (cur->item > maxNode->item) {
+				maxNode = cur; // 최대 노드 업데이트
+				prevMax = prev; // 최대 노드의 이전 노드 업데이트
+			}
+			prev = cur; // 현재 노드를 이전 노드로 업데이트
+			cur = cur->next; // 다음 노드로 이동
+		}
+	
+		// 최대 노드가 이미 헤드인 경우, 아무것도 할 필요 없음
+		if (maxNode == *ptrHead) {
+			return 1; // 이미 리스트의 앞에 있으므로 1 반환
+		}
+	
+		// 연결 끊기
+		if (prevMax != NULL) {
+			prevMax->next = maxNode->next; // 최대 노드의 이전 노드가 있을 경우 연결 끊기
+		}
+	
+		// 최대 노드를 리스트의 앞에 연결
+		maxNode->next = *ptrHead;
+		*ptrHead = maxNode;
+	
+		return 1; // 성공적으로 이동했으므로 1 반환
+	}
 
 //////////////////////////////////////////////////////////////////////////////////
 

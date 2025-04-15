@@ -88,10 +88,44 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int insertSortedLL(LinkedList *ll, int item)
-{
-	/* add your code here */
-	/* */
+// 과제 부분
+int insertSortedLL(LinkedList *ll, int item) { 
+
+    // 오름차순 정렬된 연결 리스트 ll에 item을 삽입하는 함수
+    ListNode *cur, *pre, *newNode; // cur: 현재 노드, pre: 이전 노드, newNode: 새로 삽입할 노드
+    int index = 0; // 삽입될 위치의 인덱스 (처음은 0)
+
+    if (ll == NULL) // 연결 리스트 포인터가 NULL이면
+        return -1;  // 삽입 실패 (-1 반환) | ture 반환
+
+    cur = ll->head;   // cur을 리스트의 첫 번째 노드로 초기화
+    pre = NULL;       // 이전 노드는 처음에 존재하지 않으므로 NULL로 초기화
+
+    // 삽입할 위치 찾기: cur이 NULL이 아니고 cur의 값이 item보다 작으면 계속 이동
+    while (cur != NULL && cur->item < item) {
+        pre = cur;            // pre를 현재 노드로 설정 
+        cur = cur->next;      // cur을 다음 노드로 이동
+        index++;              // 인덱스 증가
+    }
+
+    // 중복 값이 이미 존재하는 경우 삽입하지 않고 종료
+    if (cur != NULL && cur->item == item) // 현재 노드의 값이 item과 같으면
+        return -1; // 삽입 실패 (-1 반환) | ture 반환
+
+    newNode = malloc(sizeof(ListNode)); // 새로운 노드 메모리 할당
+    newNode->item = item;               // 노드에 데이터 저장
+    newNode->next = cur;                // 새 노드가 cur을 가리키게 함
+
+    if (pre == NULL) {
+        // 리스트가 비어 있거나 가장 앞에 삽입해야 하는 경우
+        ll->head = newNode; // 새 노드를 head로 설정
+    } else {
+        // 중간이나 끝에 삽입하는 경우
+        pre->next = newNode; // 이전 노드(pre)의 다음 노드를 새 노드로 연결
+    }
+
+    ll->size++;   // 리스트 크기 증가
+    return index; // 삽입된 위치의 인덱스 반환
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -167,7 +201,6 @@ int insertNode(LinkedList *ll, int index, int value){
 		ll->size++;
 		return 0;
 	}
-
 
 	// Find the nodes before and at the target position
 	// Create a new node and reconnect the links

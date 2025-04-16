@@ -114,14 +114,60 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void createQueueFromLinkedList(LinkedList *ll, Queue *q)
+void createQueueFromLinkedList(LinkedList *linkedList, Queue *queue)
 {
-	/* add your code here */
+    if (linkedList == NULL || queue == NULL) return;
+
+    // 기존 큐 비우기
+    while (!isEmptyQueue(queue)) {
+        dequeue(queue);
+    }
+
+    // 동적 배열 생성
+    int size = linkedList->size;
+    int *buffer = (int *)malloc(sizeof(int) * size);
+    if (buffer == NULL) return;
+
+    // 연결 리스트의 값을 배열에 저장
+    ListNode *cur = linkedList->head;
+    int i = 0;
+    while (cur != NULL && i < size) {
+        buffer[i++] = cur->item;
+        cur = cur->next;
+    }
+
+    // 배열 값을 큐에 enqueue
+    for (int j = 0; j < i; j++) {
+        enqueue(queue, buffer[j]);
+    }
+
+    // 동적 메모리 해제
+    free(buffer);
 }
 
-void removeOddValues(Queue *q)
+
+void removeOddValues(Queue *queue)
 {
-	/* add your code here */
+    if (queue == NULL || queue->ll.head == NULL) return;
+
+    int originalSize = queue->ll.size; 
+    int *buffer = (int *)malloc(sizeof(int) * originalSize);
+    if (buffer == NULL) return;
+
+    int count = 0;
+
+    while (!isEmptyQueue(queue)) {
+        int val = dequeue(queue);
+        if (val % 2 == 0) {
+            buffer[count++] = val;
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        enqueue(queue, buffer[i]);
+    }
+
+    free(buffer);
 }
 
 //////////////////////////////////////////////////////////////////////////////////

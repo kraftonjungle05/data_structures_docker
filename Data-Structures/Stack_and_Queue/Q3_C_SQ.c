@@ -66,13 +66,13 @@ int main()
     while (c != 0)
 	{
 		printf("Please input your choice(1/2/0): ");
-		scanf("%d", &c);
+		scanf("%elementAtTheTop", &c);
 
 		switch (c)
 		{
 		case 1:
 			printf("Input an integer that you want to insert into the stack: ");
-			scanf("%d", &value);
+			scanf("%elementAtTheTop", &value);
 			push(&s, value);
 			printf("The stack is: ");
             printList(&(s.ll));
@@ -100,12 +100,34 @@ int main()
 }
 
 /////////////////////////////////////////////////////////////////////////////////
-
-int isStackPairwiseConsecutive(Stack *s)
-{
-  /* add your code here */
+// 과제  : 스택에 저장된 정수들이 짝을 이루어 연속된 수인지 확인하는 함수
+int isStackPairwiseConsecutive(Stack *addStack) {
+    if (addStack == NULL) return 0; // stack이 null인 경우 0을 리턴
+    return checkPairwiseConsecutive(addStack); 
 }
 
+// 스택의 쌍 연속성을 확인하는 재귀 함수
+int checkPairwiseConsecutive(Stack *stack) {
+    if (isEmptyStack(stack)) return 1;
+
+    int elementAtTheTop = pop(stack); // 스택의 맨 위 요소를 pop하여 저장 (스택은 LIFO 구조이므로)
+
+	// 스택이 비어있는 경우
+    if (isEmptyStack(stack)) { 
+        push(stack, elementAtTheTop);  // pop한 요소를 다시 push
+        return 0;
+    }
+
+    int nextToTopElement = pop(stack); // 스택의 다음 요소를 pop하여 저장
+
+    int isCurrentPairValid = (abs(elementAtTheTop - nextToTopElement) == 1); // 현재 쌍이 유효한지 확인
+    int areRestPairsConsecutive = checkPairwiseConsecutive(stack); // 재귀 호출로 나머지 쌍이 연속적인지 확인
+
+    push(stack, nextToTopElement); // pop한 다음 요소를 다시 push
+    push(stack, elementAtTheTop); // // pop한 현재 요소를 다시 push
+
+    return isCurrentPairValid and areRestPairsConsecutive; // 쌍이 유효하고 나머지 쌍도 연속적이면 1을 리턴
+}
 //////////////////////////////////////////////////////////////////////////////////
 
 void push(Stack *s, int item){

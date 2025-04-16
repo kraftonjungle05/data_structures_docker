@@ -113,39 +113,30 @@ int main()
 
 
 //////////////////////////////////////////////////////////////////////////////////
+// 과제 : 연결 리스트의 노드를 큐에 enqueue하는 재귀 함수
 
-void createQueueFromLinkedList(LinkedList *linkedList, Queue *queue)
-{
-    if (linkedList == NULL || queue == NULL) return;
+void enqueueFromList(ListNode *node, Queue *q) {
+    // 기저 조건 : 더 이상 노드가 없을 때 재귀 종료
+    if (node == NULL) return;
 
-    // 기존 큐 비우기
-    while (!isEmptyQueue(queue)) {
-        dequeue(queue);
-    }
-
-    // 동적 배열 생성
-    int size = linkedList->size;
-    int *buffer = (int *)malloc(sizeof(int) * size);
-    if (buffer == NULL) return;
-
-    // 연결 리스트의 값을 배열에 저장
-    ListNode *cur = linkedList->head;
-    int i = 0;
-    while (cur != NULL && i < size) {
-        buffer[i++] = cur->item;
-        cur = cur->next;
-    }
-
-    // 배열 값을 큐에 enqueue
-    for (int j = 0; j < i; j++) {
-        enqueue(queue, buffer[j]);
-    }
-
-    // 동적 메모리 해제
-    free(buffer);
+    // f(node) = enqueue(node->item) + f(node->next)
+    enqueue(q, node->item);
+    enqueueFromList(node->next, q);
 }
 
+// 연결 리스트의 값을 큐로 복사하는 함수
+void createQueueFromLinkedList(LinkedList *ll, Queue *q) {
+    if (ll == NULL || q == NULL) return;
 
+    // 기존 큐 비우기
+    while (!isEmptyQueue(q)) {
+        dequeue(q);
+    }
+
+    // 재귀 함수 호출 시작
+    enqueueFromList(ll->head, q);
+}
+///////////////////////////////////////////////////////////////////////////////////
 void removeOddValues(Queue *queue)
 {
     if (queue == NULL || queue->ll.head == NULL) return;

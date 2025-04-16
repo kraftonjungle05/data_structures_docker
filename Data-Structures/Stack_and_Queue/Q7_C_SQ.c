@@ -283,3 +283,24 @@ int removeNode(LinkedList *ll, int index){
 
 	return -1;
 }
+
+
+
+
+/*
+
+메모리 상에서 값을 바꾸고 거꾸로 출력 
+
+헤드를 옮겨서 풀 수 있는데, 재귀로 풀어야 함
+
+스택을 사용해서 풀어야 함
+
+head 포인트를 뒤로 이동시킨다.
+
+이중포인터로 head를 바꿔줘야 함
+head null 
+
+두가지의 동작을 한 코드로 함.abort
+뒤집기, head  바꾸기
+
+*/

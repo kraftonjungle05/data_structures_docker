@@ -109,7 +109,16 @@ int main()
 
 void recursiveReverse(Queue *q)
 {
-/* add your code here */
+	// 1. base Case : q가 비었다면
+	if(isEmptyQueue(q)){
+		return;
+	}
+	// 2. 하나 dequeue 후 저장
+	int item = dequeue(q);
+	// 3. 나머지 큐 뒤집기 위해 재귀 호출
+	recursiveReverse(q);
+	// 4. 뒤집한 queue 뒤 방금 뺀 item 다시 넣기
+	enqueue(q, item);
 }
 
 //////////////////////////////////////////////////////////////////

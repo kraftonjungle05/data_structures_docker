@@ -111,7 +111,17 @@ int main()
 
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+	// 1. 예외처리
+	if(s == NULL){
+		return;
+	}
+	// 2. 반복문
+	int TOS_item = peek(s); // stack의 top
+	while (TOS_item != value)
+	{
+		pop(s);
+		TOS_item = peek(s);
+	}	
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -115,14 +115,43 @@ int main()
 //////////////////////////////////////////////////////////////////////////////////
 
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
-{
-	/* add your code here */
+{	
+	if(ll == NULL){
+		return;
+	}
+
+	ListNode *cur = ll->head;
+	while (cur != NULL)
+	{
+		enqueue(q, cur->item);
+		cur = cur->next;
+	}
+
 }
 
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+    if (q == NULL || q->ll.head == NULL) return;
+
+    ListNode *cur = q->ll.head;
+    ListNode *prev = NULL;
+    int index = 0;
+
+    while (cur != NULL) {
+        if (cur->item % 2 != 0) {
+            // 홀수이면 removeNode로 삭제
+            cur = cur->next; // 먼저 다음 노드 저장
+            removeNode(&(q->ll), index); // removeNode 자체가 포인터를 받고 있음
+            // 삭제했으니 index 증가하지 않음
+        } else {
+            // 짝수면 그냥 다음 노드로
+            prev = cur;
+            cur = cur->next;
+            index++;
+        }
+    }
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 

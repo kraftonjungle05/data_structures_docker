@@ -112,7 +112,30 @@ int main()
 
 void reverse(Queue *q)
 {
-/* add your code here */
+	// 0. 예외처리
+	if(q = NULL){
+		return;
+	}
+	// 1. 빈 스택을 만들기
+	Stack temp;
+	temp.ll.head = NULL;
+	temp.ll.size = 0;
+	// temp.ll.tail = 0;
+
+	// 2. dequeue 후 Push
+	int item = 0;
+	while (!isEmptyQueue(q))
+	{
+		item = dequeue(q);
+		push(&temp, item);
+	}
+	// 3. pop 후 enqueue
+	while (!isEmptyStack(&temp))
+	{
+		item = pop(&temp);
+		enqueue(q, item);
+	}
+	// removeAllItems(&(temp.ll));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

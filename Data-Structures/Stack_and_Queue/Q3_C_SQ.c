@@ -9,6 +9,7 @@ Purpose: Implementing the required functions for Question 3 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <math.h>
 
 //////////////////////////////////   linked list /////////////////////////////////
 
@@ -47,63 +48,100 @@ void removeAllItems(LinkedList *ll);
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-int main()
-{
-    int c, value;
+// int main()
+// {
+//     int c, value;
 
-    Stack s;
+//     Stack s;
 
-    s.ll.head=NULL;
-	s.ll.size =0;
-	s.ll.tail =NULL;
+//     s.ll.head=NULL;
+// 	s.ll.size =0;
+// 	s.ll.tail =NULL;
 
-    c =1;
+//     c =1;
 
-    printf("1: Insert an integer into the stack:\n");
-    printf("2: Check the stack is pairwise consecutive:\n");
-    printf("0: Quit:\n");
+//     printf("1: Insert an integer into the stack:\n");
+//     printf("2: Check the stack is pairwise consecutive:\n");
+//     printf("0: Quit:\n");
 
-    while (c != 0)
-	{
-		printf("Please input your choice(1/2/0): ");
-		scanf("%d", &c);
+//     while (c != 0)
+// 	{
+// 		printf("Please input your choice(1/2/0): ");
+// 		scanf("%d", &c);
 
-		switch (c)
-		{
-		case 1:
-			printf("Input an integer that you want to insert into the stack: ");
-			scanf("%d", &value);
-			push(&s, value);
-			printf("The stack is: ");
-            printList(&(s.ll));
-			break;
-		case 2:
-            if(isStackPairwiseConsecutive(&s))
-            {
-                printf("The stack is pairwise consecutive.\n");
-            }
-            else{
-                printf("The stack is not pairwise consecutive.\n");
-            }
-            removeAllItems(&(s.ll));
-            break;
-		case 0:
-			removeAllItems(&(s.ll));
-			break;
-		default:
-			printf("Choice unknown;\n");
-			break;
-		}
-	}
+// 		switch (c)
+// 		{
+// 		case 1:
+// 			printf("Input an integer that you want to insert into the stack: ");
+// 			scanf("%d", &value);
+// 			push(&s, value);
+// 			printf("The stack is: ");
+//             printList(&(s.ll));
+// 			break;
+// 		case 2:
+//             if(isStackPairwiseConsecutive(&s))
+//             {
+//                 printf("The stack is pairwise consecutive.\n");
+//             }
+//             else{
+//                 printf("The stack is not pairwise consecutive.\n");
+//             }
+//             removeAllItems(&(s.ll));
+//             break;
+// 		case 0:
+// 			removeAllItems(&(s.ll));
+// 			break;
+// 		default:
+// 			printf("Choice unknown;\n");
+// 			break;
+// 		}
+// 	}
 
-    return 0;
-}
+//     return 0;
+// }
 
 /////////////////////////////////////////////////////////////////////////////////
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+  // 1. 예외처리
+	if(s == NULL){
+		return 0;
+	}
+
+	// 2. 변수 선언 및 초기화
+	int first_item = 0;
+	int second_item = 0;
+	int size = s->ll.size;
+	int result = 1;
+
+	// 원본 값 저장 위한 임시 스택
+	Stack temp;
+	temp.ll.head = NULL;
+	temp.ll.size = 0;
+	temp.ll.tail = 0;
+
+	if(size % 2 !=0){
+		result = 0;
+	}
+
+	while (!isEmptyStack(s))
+	{
+		first_item = pop(s);
+		second_item = pop(s);
+		if (abs(first_item - second_item) != 1){
+			result = 0;
+		}
+		push(&temp, second_item);
+		push(&temp, first_item);
+	}
+
+	while (!isEmptyStack(&temp))
+	{
+		push(s, pop(&temp));
+	}
+
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

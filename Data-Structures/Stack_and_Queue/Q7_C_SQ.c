@@ -103,8 +103,40 @@ int main()
 
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
-{
-/* add your code here */
+{	// 인자로 넘어오는 expression은 character pointer
+	// balanced 문자열 판독 위한 스택 선언 및 초기화
+	Stack temp;
+	temp.ll.head = NULL;
+	temp.ll.size = 0;
+
+	int result = 1; // 결과값 1로 초기화
+
+	for (int i = 0; expression[i] != 0; i++){
+		char ch = expression[i]; // 문자열에서 문자하나 할당
+
+		if(ch == '(' || ch == '[' || ch == '{'){ // 열린괄호를 만났을 때
+			push(&temp, ch);
+		} else if(ch == ')' || ch == ']' || ch == '}'){ // 닫는 괄호를 만났을 때
+			// 만약 스택이 비어있다면 unbal
+			if(isEmptyStack(&temp)){
+				result = 0;
+				break;
+			}
+			char top = pop(&temp); // 닫는 괄호를 만났으니 pop 진행
+			//pop 후 짝 확인
+			if ((ch == ')' && top != '(') ||
+					(ch == ']' && top != '[') ||
+					(ch == '}' && top != '{')) {
+					result = 0;
+					break;
+			}	
+		}
+	}
+	// 다 비교 후에도 스택에 뭐가 있다면 unbal
+	if (!isEmptyStack(&temp)) {
+        result = 0;
+  }
+	return result;
 }
 
 ////////////////////////////////////////////////////////////

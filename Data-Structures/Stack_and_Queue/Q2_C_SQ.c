@@ -113,12 +113,27 @@ int main()
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-    /* add your code here */
-}
+    if (ll == NULL || s == NULL) return;
 
-void removeEvenValues(Stack *s)
-{
-	/* add your code here */
+    // 동적 배열을 만들어 리스트의 값을 저장
+    int *buffer = (int *)malloc(sizeof(int) * ll->size);
+    if (buffer == NULL) return;
+
+    ListNode *cur = ll->head;
+    int i = 0;
+
+    // 리스트 순회하며 값 저장
+    while (cur != NULL) {
+        buffer[i++] = cur->item;
+        cur = cur->next;
+    }
+
+    // 역순으로 push
+    for (int j = ll->size - 1; j >= 0; j--) {
+        push(s, buffer[j]);
+    }
+
+    free(buffer); // 메모리 해제
 }
 
 //////////////////////////////////////////////////////////////////////////////////

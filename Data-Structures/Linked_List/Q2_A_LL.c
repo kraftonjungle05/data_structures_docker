@@ -51,9 +51,9 @@ int main()
 	ll2.head = NULL;
 	ll2.size = 0;
 
-	printf("1: Insert an integer to the linked list 1:\n");
-	printf("2: Insert an integer to the linked list 2:\n");
-	printf("3: Create the alternate merged linked list:\n");
+	printf("1: 1번 링크드리스트에 정수 넣기:\n");
+	printf("2: 2번 링크드리스트에 정수 넣기:\n");
+	printf("3: 번갈아가며 합쳐진 연결 리스트를 만들기:\n");
 	printf("0: Quit:\n");
 
 	while (c != 0)
@@ -64,21 +64,21 @@ int main()
 		switch (c)
 		{
 		case 1:
-			printf("Input an integer that you want to add to the linked list 1: ");
+			printf("링크드리스트1에 추가할 정수를 입력하세요: ");
 			scanf("%d", &i);
 			j = insertNode(&ll1, ll1.size, i);
 			printf("Linked list 1: ");
 			printList(&ll1);
 			break;
 		case 2:
-			printf("Input an integer that you want to add to the linked list 2: ");
+			printf("링크드리스트2에 추가할 정수를 입력하세요: ");
 			scanf("%d", &i);
 			j = insertNode(&ll2, ll2.size, i);
 			printf("Linked list 2: ");
 			printList(&ll2);
 			break;
 		case 3:
-		    printf("The resulting linked lists after merging the given linked list are:\n");
+		    printf("주어진 두 링크드리스트를 병합한 결과는 다음과 같어:\n");
 			alternateMergeLinkedList(&ll1, &ll2); // You need to code this function
 			printf("The resulting linked list 1: ");
 			printList(&ll1);
@@ -103,7 +103,19 @@ int main()
 
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
+//두 리스트를 번갈아 병합
+//Q2 (교차 병합) — 두 리스트 동시에 순회
     /* add your code here */
+	if(ll1==NULL||ll2==NULL||ll2->size==0)//리스트1이 없거나,리스트2가 없거나 리스트2가 비어있으면
+		return;//병합할 의미가 없으므로 끝
+
+	int i=1;//ll1에 넣을 위치, 인덱스1부터 시작
+	while(i<=ll1->size&&ll2->size>0){//리스트1중간중간 끼워넣을 곳이 남았고 and 리스트2에서 꺼낼값이 남았다면
+		int value=ll2->head->item;//리스트2의 맨 앞 노드값을 꺼내서(value)
+		insertNode(ll1,i,value);//리스트1의 i번째위치에 value를 넣기
+		removeNode(ll2,0);//방금삽입한 맨앞노드(0번) 삭제
+		i+=2;//다음 삽입 위치는 두칸 뒤이므로 플러스2, 번갈아 배치되므로
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

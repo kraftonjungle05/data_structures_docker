@@ -87,13 +87,56 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
 int insertSortedLL(LinkedList *ll, int item) {
-   
+    if (ll == NULL) return -1;
+
+    int size = ll->size;
+
+    int *checkItems = (int *)malloc(sizeof(int) * size);
+    if (checkItems == NULL) return -1;
+
+    ListNode *cur = ll->head;
+    int i = 0;
+
+    while (cur != NULL) {
+        checkItems[i++] = cur->item;
+        cur = cur->next;
+    }
+
+    for (int j = 0; j < size; j++) {
+        if (checkItems[j] == item) {
+            free(checkItems); 
+            return -1;
+        }
+    }
+
+    free(checkItems); 
+
+    ListNode *prev = NULL;
+    cur = ll->head;
+    int index = 0;
+
+    while (cur != NULL && cur->item < item) {
+        prev = cur;
+        cur = cur->next;
+        index++;
+    }
+
+    ListNode *newNode = (ListNode *)malloc(sizeof(ListNode));
+    if (newNode == NULL) return -1;
+
+    newNode->item = item;
+    newNode->next = cur;
+
+    if (prev == NULL) {
+        ll->head = newNode;
+    } else {
+        prev->next = newNode;
+    }
+
+    ll->size++;
+    return index;
 }
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////
 
 void printList(LinkedList *ll){

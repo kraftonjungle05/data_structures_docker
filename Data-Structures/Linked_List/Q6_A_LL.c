@@ -85,10 +85,43 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////
-
+//연결리스트안에서 최댓값 노드를 찾아서
+//그 노드 자체를 맨앞으로 옮겨야함
+//값을 복사하는게 아니라 노드 자체를 움직여야함
+//최댓값이 중간쯤에 있어서 헤드를 건드려야할 경우
+//이중포인터로 **ptrHead
+//그러니까 헤드포인터 자체를 바꿔야할수있으니
+//그걸 가리키는 이중 포인터를 받는거
 int moveMaxToFront(ListNode **ptrHead)
 {
     /* add your code here */
+	if (ptrHead == NULL || *ptrHead == NULL || (*ptrHead)->next == NULL)
+        return -1; // 리스트가 비었거나 노드 1개면 이동 필요 없음
+
+    ListNode *max = *ptrHead;           // 최댓값 노드를 저장할 포인터 (초기값은 head)
+    ListNode *maxPrev = NULL;           // max 바로 앞 노드를 저장할 포인터
+    ListNode *prev = NULL;              // 현재 순회 중인 노드의 이전 노드
+    ListNode *curr = *ptrHead;          // 현재 순회 중인 노드
+
+    while (curr != NULL) {
+        if (curr->item > max->item) {   // 더 큰 값을 만나면 갱신
+            max = curr;
+            maxPrev = prev;
+        }
+        prev = curr;                    // prev는 항상 curr의 한 칸 뒤를 따라감
+        curr = curr->next;              // 다음 노드로 이동
+    }
+
+    if (max == *ptrHead)
+        return -1; // 최댓값이 이미 맨 앞이면 아무 일도 안 함
+
+    if (maxPrev != NULL)
+        maxPrev->next = max->next; // 기존 위치에서 max 노드 제거
+
+    max->next = *ptrHead;          // max를 head 앞에 붙이기
+    *ptrHead = max;                // head를 max로 갱신
+
+    return 0; // 성공적으로 이동함
 }
 
 //////////////////////////////////////////////////////////////////////////////////

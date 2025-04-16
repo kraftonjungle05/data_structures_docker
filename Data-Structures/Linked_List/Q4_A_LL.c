@@ -87,6 +87,25 @@ int main()
 void moveEvenItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if(ll==NULL||ll->size==0)//리스트가 존재하지 않거나 비어있으면 끝
+		return;
+
+	int index=0;//지금 보고있는 노드의 인덱스 설정 초기값 0 = 맨 앞
+	int originSize=ll->size;//원래 리스트의 크기, 홀수를 떼어다가 뒤에 붙여도 결국 이값은 변하지 않아야함
+	int count=0;//반복 횟수 체크(원래 리스트 크기만큼만 반복 오리진사이즈)
+
+	while(count<originSize){//오리진 사이즈만ㅋ큼 반복
+		ListNode *node=findNode(ll,index);//현재 인덱스에 있는 노드를 탐색
+
+		if(node->item%2==0){//보고있는 노드값이 짝수수라면
+			int value=node->item;//그 값을 밸류에 임시 저장
+			removeNode(ll,index);//보고있던 노드를 리스트에서 삭제
+			insertNode(ll,ll->size,value);//리스트에 맨 뒤에, 사이즈위치에 밸류값 삽입
+		} else{
+			index++;//홀수가 아니면 다음인덱스로 이동
+		}
+		count++;//오리진사이즈를 벗어나지 않기위해 카운트 증가
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

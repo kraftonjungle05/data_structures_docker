@@ -103,6 +103,26 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	if (ll==NULL||ll->size==0)
+		return; 
+	
+	int mid=ll->size/2;//절반으로 나눌 기준을 설정한다음
+
+	//반복문으로 사이즈보다 i가 작을동안 i를 증가시키면서
+	//i번째 노드를 가져와야하는데
+	//그때 mid를 기준으로ㅜ if문 만들어서
+	//넣을 리스트를 바꿔주면 인서트 노드함수써서
+
+	for(int i=0; i<ll->size; i++){
+		ListNode *node=findNode(ll,i);
+		if (i<mid){
+			insertNode(resultFrontList, resultFrontList->size, node->item);
+		}else{
+			insertNode(resultBackList, resultBackList->size, node->item);
+		}
+	}
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
